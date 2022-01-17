@@ -5,57 +5,24 @@ import keyboard
 import sys
 import tty
 import termios
-
-# Camera Initialization
-width = 1280
-height = 720
-
-camera = cv2.VideoCapture(0)
-camera.set(3,width)
-camera.set(4,height)
-
-# Color management
-colorIDs = {}
-colorNum = 0
-prevColors = set()
-initMass = {}
-finalMass = {}
-initialized = False
-        
-def update(colors):
-    global prevColors
-    
-    if prevColors == colors: return
-    
-    dif = colors.difference(prevColors)
-    
-    if len(dif) != 1: return
-    
-    for new in dif:
-        if not initialized:
-            print(new)
-            initMass[new] = 50
-        else:
-            print(new)
-            finalMass[new] = 50
-        
-    prevColors = colors
-                
-def decodeCam(image):
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    barcodes = pyzbar.decode(gray)
-    colors = set()
-    
-    for barcode in barcodes:
-       colors.add(barcode.data.decode())
-       print(barcode.data.decode())
-       
-    return image
+import qrCodeReader as qr
 
 try:
     while True:
         # Read current frame
-        ret, frame = camera.read()
-        im = decodeCam(frame)
+        read = qr.read(1)
+        colors = read[0]
+        frame = read[1]
+        
+        print(colors)
+        print()
+        cv2.namedWindow('Frame', cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('Frame', 600, 600)
+        cv2.imshow('Frame', frame)
+        
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+            break
+
 except KeyboardInterrupt:
     print('Closed')
+    cv2.destroyAllWindows()
