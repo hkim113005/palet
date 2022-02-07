@@ -1,7 +1,8 @@
-# Author: peppe8o
-# Date: Aug 2nd, 2021
-# Blog: https://peppe8o.com
-# Version: 1.0
+"""
+Credit to peppe8o for tutorial/guide and base source code.
+(https://peppe8o.com/read-qr-codes-from-raspberry-pi-with-pyzbar-and-python/)
+"""
+
 import os
 import cv2
 import numpy as np
