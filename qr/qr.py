@@ -53,6 +53,6 @@ def read(t):
     """    
     
     end = time.time()
-    print(end - start)
+    print(round(end - start, 2))
     
     return (colors, image)
